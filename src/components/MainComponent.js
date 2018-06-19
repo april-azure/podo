@@ -32,11 +32,11 @@ class Main extends Component {
 			<div>
 				<Header/>
 					<Switch>
-						<Route path='/marketing' component = { Marketing }/>
-						<Route path = '/login' component = { Login }/>
-						<Route path = '/mypage' component = { () => ( <MyPage projects={this.props.projects} /> ) } />
-						<Route path = '/projectdetail' component = { ProjectDetail } />
-						<Redirect to = '/login' />
+						<Route path= {process.env.PUBLIC_URL + '/marketing'} component = { Marketing }/>
+						<Route path =  {process.env.PUBLIC_URL + '/login' } component = { Login }/>
+						<Route path = {process.env.PUBLIC_URL + '/mypage' } component = { () => ( <MyPage projects={this.props.projects} /> ) } />
+						<Route path = {process.env.PUBLIC_URL + '/projectdetail'} component = { ProjectDetail } />
+						<Redirect to = {process.env.PUBLIC_URL + '/login'} />
 					</Switch>
 				<Footer/>
 			</div>
