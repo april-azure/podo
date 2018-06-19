@@ -1,0 +1,31 @@
+.footer{
+  color: white;
+  background-color: #343a40;
+  margin:0px auto;
+  padding: 20px 0px 20px 0px;
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+}
+
+.marketing-1, .marketing-2{
+  border-radius: 0 !important;
+  margin:0 !important;
+  min-height: 500px;
+}
+
+.marketing-1{
+  background-color: #5889DF !important; 
+}
+
+.marketing-2{
+  background-color: #53C8D1 !important; 
+}
+
+.login-card{
+  margin-top: 3rem;
+}
+
+.login-card .card-body{
+  padding: 3rem
+}
