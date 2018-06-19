@@ -12,7 +12,7 @@ class App extends Component {
   render() {
     return (
       <Provider store = {store}>
-        <BrowserRouter basename = '/podo'>
+        <BrowserRouter>
           <div>
             <Main/>
           </div>
