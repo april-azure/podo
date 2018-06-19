@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Footer from './FooterComponent'
 import Header from './HeaderComponent'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { Marketing } from './MarketingComponent'
 import Login from './LoginComponent'
 import MyPage from './MyPageComponent'
@@ -44,4 +44,4 @@ class Main extends Component {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main))
