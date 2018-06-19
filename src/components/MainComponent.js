@@ -36,7 +36,7 @@ class Main extends Component {
 						<Route path = '/login' component = { Login }/>
 						<Route path = '/mypage' component = { () => ( <MyPage projects={this.props.projects} /> ) } />
 						<Route path = '/projectdetail' component = { ProjectDetail } />
-						<Redirect to = '/marketing' />
+						<Redirect to = '/login' />
 					</Switch>
 				<Footer/>
 			</div>
