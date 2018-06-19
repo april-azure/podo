@@ -23,9 +23,39 @@
 }
 
 .login-card{
-  margin-top: 3rem;
+  margin-top: 5rem;
 }
 
 .login-card .card-body{
-  padding: 3rem
+  padding: 2rem
+}
+
+body{
+  background-color: #E1E1E1 !important;
+}
+
+body label, body h2{
+  color:#707070 !important;
+} 
+
+div.project{
+  margin-top: 1rem;
+}
+
+div.task-panel{
+  background-color: #EFEEEE;
+  border: 0px;
+}
+
+p.task-panel-item{
+  margin-bottom: 0rem
+}
+
+div.task-item{
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+}
+
+label.task-item-check-label{
+  padding-left: 0
 }
