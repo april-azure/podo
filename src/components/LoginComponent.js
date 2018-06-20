@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Row, Button, CardBody, Form, FormGroup, Label, Input } from 'reactstrap'
+import { Link } from 'react-router-dom'
 
 class Login extends Component {
 	render(){
@@ -21,7 +22,7 @@ class Login extends Component {
 								<Input bsSize='lg' type='password'></Input>
 							</FormGroup>							
 							<FormGroup>
-								<Button href={process.env.PUBLIC_URL + '/mypage'} color='warning' className='btn-lg' width='100%' block>Login</Button>
+								<Link to='/mypage' className='link-nostyle'><Button color='warning' className='btn-lg' width='100%' block>Login</Button></Link>
 							</FormGroup>
 						</Form>
 					</CardBody>

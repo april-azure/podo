@@ -59,3 +59,12 @@ div.task-item{
 label.task-item-check-label{
   padding-left: 0
 }
+
+a.link-nostyle{
+  text-decoration: none;
+  color: inherit;
+}
+
+a.link-nostyle:hover{
+  text-decoration: none;
+}
