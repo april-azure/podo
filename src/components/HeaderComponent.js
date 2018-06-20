@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Navbar, NavbarBrand, Button, NavLink } from 'reactstrap'
+import { Link } from 'react-router-dom'
 
 class Header extends Component{
 	render(){
@@ -7,12 +8,12 @@ class Header extends Component{
 			<div>
 				<Navbar color = 'dark'>
 					<div className = 'container'>
-						<NavbarBrand href='/marketing'>
-							<img src = '/assets/logo.PNG' height='30'/>
-						</NavbarBrand>
-						<Button outline color = 'warning' href='/login'>
+						<div className='navbar-brand'>
+							<Link to = '/marketing'><img src = '/assets/logo.PNG' height='30'/></Link>
+						</div>
+						<Link to='/login' className='link-nostyle'><Button outline color = 'warning'>
 							Login
-						</Button>
+						</Button></Link>
 					</div>
 				</Navbar>
 			</div>

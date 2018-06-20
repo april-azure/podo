@@ -8,6 +8,17 @@ export const Projects = (state = {
 			return { ...state, projects: action.payload }
 
 		case ActionTypes.ADD_PROJECT: 
+			console.log('adding project')
+			return {
+				...state, 
+				projects: [
+					...state.projects,
+					{
+						...action.payload,
+						id: state.projects.length
+					}
+				]
+			}
 
 		case ActionTypes.REMOVE_PROJECT: 
 

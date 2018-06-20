@@ -7,17 +7,23 @@ import Login from './LoginComponent'
 import MyPage from './MyPageComponent'
 import { connect } from 'react-redux'
 import ProjectDetail from './ProjectDetailComponent'
-import { fetchProjects } from '../redux/ActionCreator'
+import { fetchProjects, addProject, fetchTaskPanels, addTaskPanel, fetchTasks } from '../redux/ActionCreator'
 
 const mapStateToProps = (state) => {
 	return {
-		projects: state.projects
+		projects: state.projects,
+		taskPanels: state.taskPanels,
+		tasks: state.tasks
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		fetchProjects: () => dispatch(fetchProjects())
+		fetchProjects: () => dispatch(fetchProjects()),
+		addProject:(project) => dispatch(addProject(project)),
+		fetchTaskPanels: () => dispatch(fetchTaskPanels()),
+		addTaskPanel: (taskList) => dispatch(addTaskPanel(taskList)),
+		fetchTasks: () => dispatch(fetchTasks())
 	}
 }
 
@@ -25,20 +31,43 @@ class Main extends Component {
 
 	componentDidMount() {
 		this.props.fetchProjects()
+		this.props.fetchTaskPanels()
+		this.props.fetchTasks()
 	}
 
 	render() {
-		console.log(process.env.PUBLIC_URL)
+
+	const RenderTaskPanel = ({match}) => {
+		const projectId = parseInt(match.params.projectId)
+		var taskPanels = [], tasks = []
+		if (this.props.taskPanels.taskPanels){
+			taskPanels = this.props.taskPanels.taskPanels.filter((taskPenel)=> taskPenel.projectId === projectId )
+		}
+		
+		if (this.props.tasks.tasks) {
+			tasks = this.props.tasks.tasks.filter((task) => task.projectId === projectId)
+		}
+
+		return (
+			<ProjectDetail 
+				addTaskList = {this.props.addTaskPanel} 
+				projectId = {projectId} 
+				taskPanels = {taskPanels}
+				tasks = {tasks}
+				addTodo = {this.props.addTodo}
+			/>
+		)
+	}
 
 		return (
 			<div>
 				<Header/>
 					<Switch>
-						<Route path= {process.env.PUBLIC_URL + '/marketing'} component = { Marketing }/>
-						<Route path =  {process.env.PUBLIC_URL + '/login' } component = { Login }/>
-						<Route path = {process.env.PUBLIC_URL + '/mypage' } component = { () => ( <MyPage projects={this.props.projects} /> ) } />
-						<Route path = {process.env.PUBLIC_URL + '/projectdetail'} component = { ProjectDetail } />
-						<Redirect to = {process.env.PUBLIC_URL + '/login'} />
+						<Route path= '/marketing' component = { Marketing }/>
+						<Route path = '/login'  component = { Login }/>
+						<Route path = '/mypage'  component = { () => ( <MyPage addProject = {this.props.addProject} projects={this.props.projects} /> ) } />
+						<Route path = '/projectdetail/:projectId' component = { RenderTaskPanel } />
+						<Redirect to = '/login' />
 					</Switch>
 				<Footer/>
 			</div>

@@ -1,4 +1,4 @@
-export const TASKPANEL = [
+export const TASKPANELS = [
 	{
 		id: 0,
 		projectId: 0,
