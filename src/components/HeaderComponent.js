@@ -7,7 +7,7 @@ class Header extends Component{
 			<div>
 				<Navbar color = 'dark'>
 					<div className = 'container'>
-						<NavbarBrand href='/marketing'>
+						<NavbarBrand href = {process.env.PUBLIC_URL + '/marketing' } >
 							<img src = '/assets/logo.PNG' height='30'/>
 						</NavbarBrand>
 						<Button outline color = 'warning' href='/login'>

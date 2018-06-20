@@ -21,7 +21,7 @@ class Login extends Component {
 								<Input bsSize='lg' type='password'></Input>
 							</FormGroup>							
 							<FormGroup>
-								<Button href='/mypage' color='warning' className='btn-lg' width='100%' block>Login</Button>
+								<Button href={process.env.PUBLIC_URL + '/mypage'} color='warning' className='btn-lg' width='100%' block>Login</Button>
 							</FormGroup>
 						</Form>
 					</CardBody>
