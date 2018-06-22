@@ -6,6 +6,50 @@ import { LocalForm, Control, Errors } from 'react-redux-form'
 
 const required = (val) => val && val.length
 
+class Task extends Component {
+	constructor(props){
+		super(props)
+		this.state = {
+			finished: false
+		}
+		this.toggle = this.toggle.bind(this)
+	}
+
+	toggle() {
+		this.setState({
+			finished: !this.state.finished
+		})
+	}
+
+	render() {
+			const task = this.props.task
+			return(
+				<Card className='task-item container'>
+					<Form>
+						<FormGroup check>
+							<Label check style = {{textDecoration: !this.state.finished?'none':'line-through' }} className='col-sm-10 float-left task-item-check-label'>
+								<Input type='checkbox' onChange = {this.toggle}/>
+								{task.title}
+							</Label>
+							<Label className='float-right'>Edit</Label>
+
+						</FormGroup>
+					</Form>
+					<div className='row'>
+						<div style={{paddingLeft:0}} className='col col-sm-11 offset-sm-1'>
+							<Badge>ui design</Badge>	
+						</div>
+					</div>
+					<div className='row'>
+						<small style={{paddingLeft:0}} className='col col-sm-9 offset-sm-1'>{task.due}</small>
+						<small>{task.assignee}</small>
+					</div>
+					
+				</Card>
+			)
+		}
+}
+
 class ProjectDetail extends Component {
 	
 	constructor(props) {
@@ -30,7 +74,8 @@ class ProjectDetail extends Component {
 	addTodo(todo) {
 		const newTodo = {
 			...todo, 
-			projectId: this.props.projectId
+			projectId: this.props.projectId,
+			taskPanelId: this.state.taskPanelId
 		}
 		this.props.addTodo(newTodo)
 	}
@@ -101,33 +146,7 @@ class ProjectDetail extends Component {
 			)
 		}
 
-		const RenderTask = (props) => {
-			const task = props.task
-			return(
-				<Card className='task-item container'>
-					<Form>
-						<FormGroup check>
-							<Label check className='col-sm-10 float-left task-item-check-label'>
-								<Input type='checkbox'/>
-								{task.title}
-							</Label>
-							<Label className='float-right'>Edit</Label>
 
-						</FormGroup>
-					</Form>
-					<div className='row'>
-						<div style={{paddingLeft:0}} className='col col-sm-11 offset-sm-1'>
-							<Badge>ui design</Badge>	
-						</div>
-					</div>
-					<div className='row'>
-						<small style={{paddingLeft:0}} className='col col-sm-9 offset-sm-1'>{task.due}</small>
-						<small>{task.assignee}</small>
-					</div>
-					
-				</Card>
-			)
-		}
 
 		const RenderTaskPanel = (props) => {
 			const taskList = props.taskPanel
@@ -142,8 +161,8 @@ class ProjectDetail extends Component {
 						<CardBody>
 							<Button onClick = {() => this.toggle(taskList.id)} outline className='btn-sm'>+ Todo</Button>
 							{
-								this.props.tasks.map((task) => {
-									return (<RenderTask task = {task}/>)
+								this.props.tasks.filter((task)=> task.taskPanelId == taskList.id).map((task, i) => {
+										return (<Task task = {task} key = {i}/>)
 								})
 							}
 						</CardBody>

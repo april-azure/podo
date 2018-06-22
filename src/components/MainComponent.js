@@ -7,7 +7,7 @@ import Login from './LoginComponent'
 import MyPage from './MyPageComponent'
 import { connect } from 'react-redux'
 import ProjectDetail from './ProjectDetailComponent'
-import { fetchProjects, addProject, fetchTaskPanels, addTaskPanel, fetchTasks } from '../redux/ActionCreator'
+import { fetchProjects, addProject, fetchTaskPanels, addTaskPanel, fetchTasks, addTodo } from '../redux/ActionCreator'
 
 const mapStateToProps = (state) => {
 	return {
@@ -23,7 +23,8 @@ const mapDispatchToProps = (dispatch) => {
 		addProject:(project) => dispatch(addProject(project)),
 		fetchTaskPanels: () => dispatch(fetchTaskPanels()),
 		addTaskPanel: (taskList) => dispatch(addTaskPanel(taskList)),
-		fetchTasks: () => dispatch(fetchTasks())
+		fetchTasks: () => dispatch(fetchTasks()),
+		addTodo: (todo) => dispatch(addTodo(todo))
 	}
 }
 
@@ -59,13 +60,19 @@ class Main extends Component {
 		)
 	}
 
+	const RenderMyPage = () => {
+		return (
+			<MyPage addProject = {this.props.addProject} projects={this.props.projects} />
+		)
+	}
+
 		return (
 			<div>
 				<Header/>
 					<Switch>
 						<Route path= '/marketing' component = { Marketing }/>
 						<Route path = '/login'  component = { Login }/>
-						<Route path = '/mypage'  component = { () => ( <MyPage addProject = {this.props.addProject} projects={this.props.projects} /> ) } />
+						<Route path = '/mypage'  component = { RenderMyPage } />
 						<Route path = '/projectdetail/:projectId' component = { RenderTaskPanel } />
 						<Redirect to = '/login' />
 					</Switch>

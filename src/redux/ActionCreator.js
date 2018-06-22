@@ -26,6 +26,13 @@ export const fetchTasks = () => {
 	}
 }
 
+export const addTodo = (todo) => {
+	return {
+		type: ActionTypes.ADD_TASK,
+		payload: todo
+	}
+}
+
 export const fetchTaskPanels = () => {
 	return {
 		type: ActionTypes.LOAD_TASK_PANELS,
@@ -39,3 +46,4 @@ export const addTaskPanel = (taskPanel) => {
 		payload: taskPanel
 	}
 }
+

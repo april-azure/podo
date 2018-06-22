@@ -8,6 +8,17 @@ export const Tasks = (state = {
 			return {...state, tasks: action.payload}
 
 		case ActionTypes.ADD_TASK: 
+		console.log('adding task in action types')
+			return {
+				...state, 
+				tasks: [
+					...state.tasks,
+					{
+						...action.payload,
+						id: state.tasks.length + 1
+					}
+				]
+			}
 
 		case ActionTypes.REMOVE_TASK: 
 
