@@ -3,6 +3,19 @@ import { PROJECTS } from '../shared/projects'
 import { TASKS } from '../shared/tasks'
 import { TASKPANELS } from '../shared/taskPanel'
 
+export const signIn = (username) => {
+	return {
+		type: ActionTypes.SIGN_IN,
+		payload: username
+	}
+}
+
+export const signOut = () => {
+	return {
+		type: ActionTypes.SIGN_OUT
+	}
+}
+
 export const fetchProjects = () => {
 	console.log(PROJECTS)
 	return {

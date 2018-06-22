@@ -8,3 +8,6 @@ export const ADD_TASK_PANEL = 'ADD_TASK_PANEL'
 export const LOAD_TASKS = 'LOAD_TASKS'
 export const ADD_TASK = 'ADD_TASK'
 export const REMOVE_TASK = 'REMOVE_TASK'
+
+export const SIGN_IN = 'SIGN_IN'
+export const SIGN_OUT = 'SIGN_OUT'

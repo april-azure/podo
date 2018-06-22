@@ -68,3 +68,14 @@ a.link-nostyle{
 a.link-nostyle:hover{
   text-decoration: none;
 }
+
+
+/*marketing*/
+.branding-img{
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0.2, 0.3, 0.2, 0.3)
+}
+
+.branding-panel p, .branding-panel h3{
+  color:white;
+}
