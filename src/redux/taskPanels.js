@@ -8,7 +8,6 @@ export const TaskPanels = (state = {
 			return {...state, taskPanels: action.payload}
 
 		case ActionTypes.ADD_TASK_PANEL:
-			console.log('adding task panel')
 			return {
 				...state, 
 				taskPanels: [
@@ -16,6 +15,18 @@ export const TaskPanels = (state = {
 					action.payload
 				]
 			}
+
+		case ActionTypes.UPDATE_TASK_PANEL_TITLE: 
+			var panels = [...state.taskPanels]
+			for(var i = 0; i < panels.length; i++) {
+				if(panels[i].id === action.payload.taskPanelId)
+					panels[i].title = action.payload.title
+			}
+			return {
+				...state, 
+				taskPanels: panels
+			}
+
 		default: return state
 	}
 }

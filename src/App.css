@@ -79,3 +79,7 @@ a.link-nostyle:hover{
 .branding-panel p, .branding-panel h3{
   color:white;
 }
+
+.adjust-add-button{
+  margin-top: 0.5rem;
+}

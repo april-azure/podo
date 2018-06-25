@@ -11,3 +11,7 @@ export const REMOVE_TASK = 'REMOVE_TASK'
 
 export const SIGN_IN = 'SIGN_IN'
 export const SIGN_OUT = 'SIGN_OUT'
+
+export const FINISH_TASK = 'FINISH_TASK'
+
+export const UPDATE_TASK_PANEL_TITLE = 'UPDATE_TASK_PANEL_TITLE'

@@ -7,7 +7,8 @@ import Login from './LoginComponent'
 import MyPage from './MyPageComponent'
 import { connect } from 'react-redux'
 import ProjectDetail from './ProjectDetailComponent'
-import { fetchProjects, addProject, fetchTaskPanels, addTaskPanel, fetchTasks, addTodo, signIn, signOut } from '../redux/ActionCreator'
+import { fetchProjects, addProject, fetchTaskPanels, addTaskPanel, fetchTasks, 
+	addTodo, signIn, signOut, finishTask, updateTitle } from '../redux/ActionCreator'
 
 const mapStateToProps = (state) => {
 	return {
@@ -25,9 +26,11 @@ const mapDispatchToProps = (dispatch) => {
 		fetchTaskPanels: () => dispatch(fetchTaskPanels()),
 		addTaskPanel: (taskList) => dispatch(addTaskPanel(taskList)),
 		fetchTasks: () => dispatch(fetchTasks()),
+		finishTask: (taskId) => dispatch(finishTask(taskId)),
 		addTodo: (todo) => dispatch(addTodo(todo)),
 		signIn: (username) => dispatch(signIn(username)),
-		signOut: () => dispatch(signOut())
+		signOut: () => dispatch(signOut()),
+		updateTitle: (panelId, title) => dispatch(updateTitle(panelId, title))
 	}
 }
 
@@ -58,13 +61,15 @@ class Main extends Component {
 					taskPanels = {taskPanels}
 					tasks = {tasks}
 					addTodo = {this.props.addTodo}
+					finishTask = {this.props.finishTask}
+					updateTitle = {this.props.updateTitle}
 				/>
 			)
 		}
 
 		const RenderMyPage = () => {
 			return (
-				<MyPage addProject = {this.props.addProject} projects={this.props.projects} />
+				<MyPage addProject = {this.props.addProject} projects = {this.props.projects} tasks = {this.props.tasks} />
 			)
 		}
 

@@ -40,7 +40,6 @@ class MyPage extends Component {
 	}
 
 	render(){
-
 		const RenderModal = (props) => {
 			return(
 				<Modal isOpen = {this.state.isOpen} toggle={this.toggle} >
@@ -116,7 +115,7 @@ class MyPage extends Component {
 				return (
 					<div>
 						{props.projects.map((project, key) => {
-							return (<RenderProject project = {project} key = {key}/>)
+							return (<RenderProject tasks = {props.tasks? props.tasks.filter((task)=> task.projectId === project.id): []} project = {project} key = {key}/>)
 						})}
 					</div>
 				)
@@ -124,6 +123,9 @@ class MyPage extends Component {
 		}
 
 		const RenderProject = (props) => {
+			const completedTasks = props.tasks ?props.tasks.filter((task) => task.finish).length :0
+			const ongoingTasks = props.tasks ?props.tasks.filter((task) => !task.finish).length :0
+
 			const project = props.project;
 
 			return (
@@ -138,8 +140,7 @@ class MyPage extends Component {
 							</CardText>
 							<Card className = 'task-panel'>
 								<CardBody>
-									<p className='task-panel-item'>5 tasks ongoing</p>
-									<p className='task-panel-item'>5 tasks uncompleted</p>
+									<p className='task-panel-item'>{ongoingTasks} tasks ongoing</p>
 								</CardBody>
 							</Card>
 						</CardBody>
@@ -161,10 +162,10 @@ class MyPage extends Component {
 			<div className = 'container'>
 				<Row>
 					<div className='col-md-12'>
-						<Button className='float-right' onClick = {this.toggle}>Add Project</Button>	
+						<Button className='float-right adjust-add-button' onClick = {this.toggle}>Add Project</Button>	
 					</div>
 				</Row>
-				<RenderProjects projects = {this.props.projects.projects}/>
+				<RenderProjects tasks = {this.props.tasks.tasks} projects = {this.props.projects.projects}/>
 				<RenderModal addProject = {this.props.addProject}/>
 			</div>
 		)

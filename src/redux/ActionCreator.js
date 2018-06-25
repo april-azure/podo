@@ -60,3 +60,19 @@ export const addTaskPanel = (taskPanel) => {
 	}
 }
 
+export const updateTitle = (panelId, title) => {
+	return {
+		type: ActionTypes.UPDATE_TASK_PANEL_TITLE, 
+		payload: {
+			taskPanelId: panelId,
+			title: title
+		}
+	}
+}
+
+export const finishTask = (taskId) => {
+	return {
+		type: ActionTypes.FINISH_TASK,
+		payload: taskId
+	}
+}

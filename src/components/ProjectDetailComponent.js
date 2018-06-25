@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Card, CardTitle, CardSubTitle, CardBody, CardHeader, Badge, Input, 
 	FormGroup, Form, Label, Button, Row, Col, Modal, ModalHeader, ModalFooter, 
-	ModalBody } from 'reactstrap'
+	ModalBody, Navbar, Nav, NavItem, NavLink, NavbarBrand } from 'reactstrap'
 import { LocalForm, Control, Errors } from 'react-redux-form'
 
 const required = (val) => val && val.length
@@ -9,16 +9,11 @@ const required = (val) => val && val.length
 class Task extends Component {
 	constructor(props){
 		super(props)
-		this.state = {
-			finished: false
-		}
 		this.toggle = this.toggle.bind(this)
 	}
 
 	toggle() {
-		this.setState({
-			finished: !this.state.finished
-		})
+		this.props.finishTask(this.props.task.id)
 	}
 
 	render() {
@@ -27,8 +22,8 @@ class Task extends Component {
 				<Card className='task-item container'>
 					<Form>
 						<FormGroup check>
-							<Label check style = {{textDecoration: !this.state.finished?'none':'line-through' }} className='col-sm-10 float-left task-item-check-label'>
-								<Input type='checkbox' onChange = {this.toggle}/>
+							<Label check style = {{textDecoration: !task.finish?'none':'line-through' }} className='col-sm-10 float-left task-item-check-label'>
+								<Input type='checkbox' onChange = {this.toggle} checked = {task.finish}/>
 								{task.title}
 							</Label>
 							<Button color='primary' onClick = {() => this.props.editTask(task.id)} className='float-right btn-sm' outline>Edit</Button>
@@ -85,7 +80,8 @@ class ProjectDetail extends Component {
 		const newTodo = {
 			...todo, 
 			projectId: this.props.projectId,
-			taskPanelId: this.state.taskPanelId
+			taskPanelId: this.state.taskPanelId,
+			id: this.state.editingTask? this.state.editingTask.id: null
 		}
 		this.props.addTodo(newTodo)
 	}
@@ -105,7 +101,7 @@ class ProjectDetail extends Component {
 		this.setState({
 			editingTask: task
 		})
-		this.toggle(taskId, true)
+		this.toggle(task.taskPanelId, true)
 	}
 
 	render() {	
@@ -161,7 +157,11 @@ class ProjectDetail extends Component {
 						</ModalBody>
 						<ModalFooter>
 							<Button outline onClick = {this.toggle}>Cancel</Button>
-							<Button color='primary'>Add</Button>
+							{
+								this.state.editingTask === null
+								? <Button color='primary'>Add</Button>
+								: <Button color='primary'>Save</Button>
+							}
 						</ModalFooter>
 					</LocalForm>
 				</Modal>
@@ -169,15 +169,26 @@ class ProjectDetail extends Component {
 		}
 
 		return (
-			<div className = 'container'>
-				<Row className='justify-content-end'>
-					<Button onClick = {this.addTaskList}>Add Task List</Button>
-				</Row>
-				{this.props.taskPanels.map((taskPanel,i)=> {
-					const tasks = this.props.tasks.filter((task)=> task.taskPanelId === taskPanel.id)	
-					return (<TaskPanel toggle={this.toggle} editTask = {this.editTask} tasks = {tasks} taskPanel = {taskPanel} key={i}/>)
-				})}
-				<RenderModal/>
+			<div>
+				<div className='text-warning' style={{backgroundColor: '#343a40'}}>
+					<div className='col float-right'>
+						<Button className='col-md-2'>a</Button>
+					</div>
+
+					<div className='container'>
+						<h5>Project Name</h5>
+					</div>
+				</div>
+				<div className = 'container'>
+					<Row className='justify-content-end'>
+						<Button className='adjust-add-button' onClick = {this.addTaskList}>Add Task List</Button>
+					</Row>
+					{this.props.taskPanels.map((taskPanel,i)=> {
+						const tasks = this.props.tasks.filter((task)=> task.taskPanelId === taskPanel.id)	
+						return (<TaskPanel saveTitle={this.props.updateTitle} finishTask={this.props.finishTask} toggle={this.toggle} editTask = {this.editTask} tasks = {tasks} taskPanel = {taskPanel} key={i}/>)
+					})}
+					<RenderModal/>				
+				</div>
 			</div>
 		)
 		
@@ -185,23 +196,77 @@ class ProjectDetail extends Component {
 }
 
 class TaskPanel extends Component {
-	render(){
+	constructor(props) {
+		super(props)
+		this.state = {
+			editingTitle: false,
+			title: props.taskPanel.title,
+		}
+		this.toggleEditingTitle = this.toggleEditingTitle.bind(this)
+		this.handleChangeTitle = this.handleChangeTitle.bind(this)
+		//this.saveTitle = this.saveTitle.bind(this)
+	}
+
+	toggleEditingTitle() {
+		this.setState({
+			editingTitle: !this.state.editingTitle
+		})
+	}
+
+	saveTitle(panelId){
+		this.props.saveTitle(panelId, this.state.title ? this.state.title: 'Task List')
+		this.setState({
+			editingTitle: !this.state.editingTitle
+		})
+	}
+
+	handleChangeTitle(event) {
+		this.setState({
+			title: event.target.value
+		})
+	}
+
+	handleKeyPress(event) {
+		if(event.key === 'Enter') {
+			this.handleChangeTitle(event)
+		}
+	}
+
+	render() {
 		const taskList = this.props.taskPanel
 		console.log(this.props)
 		console.log(taskList.id)
+		const totalTasks = this.props.tasks.length 
+		const finishedTasks = this.props.tasks.filter((task)=> task.finish).length
 		return (
 			<div className ='col col-sm-12 col-md-6 col-lg-4 project float-left' >
 				<Card className='task-list'>
 					<CardHeader>
-						<CardTitle>{taskList.title}<Badge className='float-right' color='light' pill>1/4</Badge></CardTitle>
+						<CardTitle  className='container'>
+							<div className='row'>
+								{
+									! this.state.editingTitle
+									? <span onClick = {this.toggleEditingTitle} style={{paddingLeft:0}} className='col-sm-9'>{taskList.title}</span>
+									: <input autoFocus 
+											className='form-control col-sm-9' 
+											onBlur={()=>this.saveTitle(taskList.id)}
+											onChange={this.handleChangeTitle}
+											onKeyPress={this.handleKeyPress}
+											value={this.state.title}
+											/>
+								}
+						  		<small style={{paddingRight:0}} className='col col-sm-3 text-right'><b>{finishedTasks}/{totalTasks}</b></small>
+							</div>
+						</CardTitle>
 					</CardHeader>
 					<CardBody>
 						<Button onClick = {() => this.props.toggle(taskList.id)} outline className='btn-sm'>+ Todo</Button>
 						{
 							this.props.tasks.filter((task)=> task.taskPanelId == taskList.id).map((task, i) => {
-									return (<Task editTask = {this.props.editTask} task = {task} key = {task.id}/>)
+									return (<Task finishTask = {this.props.finishTask} editTask = {this.props.editTask} task = {task} key = {task.id}/>)
 							})
 						}
+						{this.props.tasks.length? null: <div><small>There is no task</small></div>}
 					</CardBody>
 				</Card>
 			</div>
