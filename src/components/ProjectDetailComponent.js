@@ -3,6 +3,8 @@ import { Card, CardTitle, CardSubTitle, CardBody, CardHeader, Badge, Input,
 	FormGroup, Form, Label, Button, Row, Col, Modal, ModalHeader, ModalFooter, 
 	ModalBody, Navbar, Nav, NavItem, NavLink, NavbarBrand } from 'reactstrap'
 import { LocalForm, Control, Errors } from 'react-redux-form'
+import { withRouter, Switch, Route, Link } from 'react-router-dom'
+import ProjectInfo from './ProjectInfoComponent'
 
 const required = (val) => val && val.length
 
@@ -79,7 +81,7 @@ class ProjectDetail extends Component {
 	addTodo(todo) {
 		const newTodo = {
 			...todo, 
-			projectId: this.props.projectId,
+			projectId: this.props.project.id,
 			taskPanelId: this.state.taskPanelId,
 			id: this.state.editingTask? this.state.editingTask.id: null
 		}
@@ -89,7 +91,7 @@ class ProjectDetail extends Component {
 	addTaskList() {
 		this.props.addTaskList({
 			id: this.props.taskPanels.length,
-			projectId: this.props.projectId,
+			projectId: this.props.project.id,
 			title: 'Task List'			
 		})
 	}
@@ -171,14 +173,31 @@ class ProjectDetail extends Component {
 		return (
 			<div>
 				<div className='text-warning' style={{backgroundColor: '#343a40'}}>
-					<div className='col float-right'>
-						<Button className='col-md-2'>a</Button>
+					<div className='container'>
+						<Link to='/mypage'>
+							<Button style={{border:'0px'}} color='warning' outline className='btn-sm'>{'<-'}</Button>
+						</Link>
+
 					</div>
 
-					<div className='container'>
-						<h5>Project Name</h5>
-					</div>
+					<Navbar expand='md' className='text-warning container' color='dark' dark>
+						<NavbarBrand>
+							{this.props.project.title}
+						</NavbarBrand>
+						<Nav horizontal navbar className='float-left'>
+							<NavItem>
+								<NavLink><Link className='link-nostyle' to ='projectdetail/info'>Info</Link></NavLink>
+							</NavItem>
+							<NavItem>
+								<NavLink><Link className='link-nostyle' to =''>Members</Link></NavLink>
+							</NavItem>							
+						</Nav>
+					</Navbar>
 				</div>
+{/*				<Switch>
+					<Route path='/info' component = {ProjectInfo} />
+					<Route path='/members/' />
+				</Switch>*/}
 				<div className = 'container'>
 					<Row className='justify-content-end'>
 						<Button className='adjust-add-button' onClick = {this.addTaskList}>Add Task List</Button>
@@ -274,4 +293,4 @@ class TaskPanel extends Component {
 	}
 }
 
-export default ProjectDetail
+export default withRouter(ProjectDetail)

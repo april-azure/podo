@@ -45,7 +45,7 @@ class Main extends Component {
 	render() {
 		const RenderTaskPanel = ({match}) => {
 			const projectId = parseInt(match.params.projectId)
-			var taskPanels = [], tasks = []
+			var taskPanels = [], tasks = [], project = []
 			if (this.props.taskPanels.taskPanels){
 				taskPanels = this.props.taskPanels.taskPanels.filter((taskPenel)=> taskPenel.projectId === projectId )
 			}
@@ -54,10 +54,14 @@ class Main extends Component {
 				tasks = this.props.tasks.tasks.filter((task) => task.projectId === projectId)
 			}
 
+			if (this.props.projects.projects) {
+				project = this.props.projects.projects.filter((project) => project.id === projectId)[0]
+			}
+
 			return (
 				<ProjectDetail 
 					addTaskList = {this.props.addTaskPanel} 
-					projectId = {projectId} 
+					project = {project} 
 					taskPanels = {taskPanels}
 					tasks = {tasks}
 					addTodo = {this.props.addTodo}
