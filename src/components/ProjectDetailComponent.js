@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Card, CardTitle, CardSubTitle, CardBody, CardHeader, Badge, Input, 
 	FormGroup, Form, Label, Button, Row, Col, Modal, ModalHeader, ModalFooter, 
-	ModalBody, Navbar, Nav, NavItem, NavLink, NavbarBrand } from 'reactstrap'
+	ModalBody, Navbar, Nav, NavItem, NavbarBrand, NavLink as NavLinkItem } from 'reactstrap'
 import { LocalForm, Control, Errors } from 'react-redux-form'
-import { withRouter, Switch, Route, Link } from 'react-router-dom'
+import { withRouter, Switch, Route, Link, NavLink } from 'react-router-dom'
 import ProjectInfo from './ProjectInfoComponent'
 
 const required = (val) => val && val.length
@@ -170,6 +170,21 @@ class ProjectDetail extends Component {
 			)
 		}
 
+		const RenderTaskPanels = (props) => {
+			return (
+				<div className = 'container'>
+					<Row className='justify-content-end'>
+						<Button className='adjust-add-button' onClick = {this.addTaskList}>Add Task List</Button>
+					</Row>
+					{this.props.taskPanels.map((taskPanel,i)=> {
+						const tasks = this.props.tasks.filter((task)=> task.taskPanelId === taskPanel.id)	
+						return (<TaskPanel saveTitle={this.props.updateTitle} finishTask={this.props.finishTask} toggle={this.toggle} editTask = {this.editTask} tasks = {tasks} taskPanel = {taskPanel} key={i}/>)
+					})}
+					<RenderModal/>				
+				</div>
+			)
+		}
+
 		return (
 			<div>
 				<div className='text-warning' style={{backgroundColor: '#343a40'}}>
@@ -181,33 +196,25 @@ class ProjectDetail extends Component {
 					</div>
 
 					<Navbar expand='md' className='text-warning container' color='dark' dark>
-						<NavbarBrand>
-							{this.props.project.title}
-						</NavbarBrand>
+
 						<Nav horizontal navbar className='float-left'>
 							<NavItem>
-								<NavLink><Link className='link-nostyle' to ='projectdetail/info'>Info</Link></NavLink>
+								<NavLinkItem><NavLink exact activeClassName='text-warning' className='link-nostyle' className='link-nostyle' to={this.props.match.url}><h5>{this.props.project.title}</h5></NavLink></NavLinkItem>
 							</NavItem>
 							<NavItem>
-								<NavLink><Link className='link-nostyle' to =''>Members</Link></NavLink>
+								<NavLinkItem><NavLink activeClassName='text-warning' className='link-nostyle' to ={`${this.props.match.url}/info`}>Info</NavLink></NavLinkItem>
+							</NavItem>
+							<NavItem>
+								<NavLinkItem><NavLink activeClassName='text-warning' className='link-nostyle' to ={`${this.props.match.url}/members`}>Members</NavLink></NavLinkItem>
 							</NavItem>							
 						</Nav>
 					</Navbar>
 				</div>
-{/*				<Switch>
-					<Route path='/info' component = {ProjectInfo} />
-					<Route path='/members/' />
-				</Switch>*/}
-				<div className = 'container'>
-					<Row className='justify-content-end'>
-						<Button className='adjust-add-button' onClick = {this.addTaskList}>Add Task List</Button>
-					</Row>
-					{this.props.taskPanels.map((taskPanel,i)=> {
-						const tasks = this.props.tasks.filter((task)=> task.taskPanelId === taskPanel.id)	
-						return (<TaskPanel saveTitle={this.props.updateTitle} finishTask={this.props.finishTask} toggle={this.toggle} editTask = {this.editTask} tasks = {tasks} taskPanel = {taskPanel} key={i}/>)
-					})}
-					<RenderModal/>				
-				</div>
+
+				<Route exact path={this.props.match.url} component = { RenderTaskPanels } />
+				<Route path={`${this.props.match.url}/info`} component = {() => <ProjectInfo project = {this.props.project}/> } />
+				<Route path='/members/' />
+
 			</div>
 		)
 		
