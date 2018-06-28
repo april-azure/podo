@@ -76,3 +76,10 @@ export const finishTask = (taskId) => {
 		payload: taskId
 	}
 }
+
+export const updateProjectInfo = (project) => {
+	return {
+		type: ActionTypes.UPDATE_PROJECT, 
+		payload: project
+	}
+}

@@ -15,3 +15,5 @@ export const SIGN_OUT = 'SIGN_OUT'
 export const FINISH_TASK = 'FINISH_TASK'
 
 export const UPDATE_TASK_PANEL_TITLE = 'UPDATE_TASK_PANEL_TITLE'
+
+export const UPDATE_PROJECT ='UPDATE_PROJECT'

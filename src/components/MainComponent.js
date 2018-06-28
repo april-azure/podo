@@ -78,8 +78,9 @@ class Main extends Component {
 		}
 
 		return (
-			<div>
-				<Header user = {this.props.user} signOut = {this.props.signOut} />
+			<div style={{minHeight:'100vh'}}>
+				<div className='content'>
+					<Header user = {this.props.user} signOut = {this.props.signOut} />
 					<Switch>
 						<Route path= '/marketing' component = { Marketing }/>
 						<Route path = '/login'  component = {()=> <Login signIn = {this.props.signIn}/> }/>
@@ -87,7 +88,10 @@ class Main extends Component {
 						<Route path = '/projectdetail/:projectId' component = { RenderTaskPanel } />
 						<Redirect to = '/login' />
 					</Switch>
-				<Footer/>
+					<div className='push'>
+					</div>
+				</div>	
+				<Footer/>	
 			</div>
 		)
 	}

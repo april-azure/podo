@@ -1,13 +1,24 @@
+html, body{
+  height: 100%;
+}
+#root{
+  min-height: 100%;
+}
+.content{
+  min-height: 100vh;
+  margin-bottom: -4rem;
+}
 .footer{
+  position: relative;
   color: white;
   background-color: #343a40;
-  margin:0px auto;
   padding: 20px 0px 20px 0px;
   bottom: 0;
-  position: fixed;
   width: 100%;
 }
-
+.push, .footer{
+  height: 4rem;
+}
 .marketing-1, .marketing-2{
   border-radius: 0 !important;
   margin:0 !important;
@@ -83,3 +94,9 @@ a.link-nostyle:hover{
 .adjust-add-button{
   margin-top: 0.5rem;
 }
+
+.svg-md{
+  width: 24px;
+  height: 24px;
+}
+

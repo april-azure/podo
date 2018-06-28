@@ -114,9 +114,13 @@ class MyPage extends Component {
 			else {
 				return (
 					<div>
-						{props.projects.map((project, key) => {
-							return (<RenderProject tasks = {props.tasks? props.tasks.filter((task)=> task.projectId === project.id): []} project = {project} key = {key}/>)
-						})}
+						<div>
+							{props.projects.map((project, key) => {
+								return (<RenderProject tasks = {props.tasks? props.tasks.filter((task)=> task.projectId === project.id): []} project = {project} key = {key}/>)
+							})}
+						</div>
+						<div style={{clear:'both'}}>
+						</div>
 					</div>
 				)
 			}

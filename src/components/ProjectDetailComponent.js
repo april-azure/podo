@@ -180,6 +180,8 @@ class ProjectDetail extends Component {
 						const tasks = this.props.tasks.filter((task)=> task.taskPanelId === taskPanel.id)	
 						return (<TaskPanel saveTitle={this.props.updateTitle} finishTask={this.props.finishTask} toggle={this.toggle} editTask = {this.editTask} tasks = {tasks} taskPanel = {taskPanel} key={i}/>)
 					})}
+					<div style={{clear:'both'}}>
+					</div>
 					<RenderModal/>				
 				</div>
 			)

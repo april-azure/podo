@@ -1,18 +1,27 @@
 import React, {Component} from 'react'
 import {LocalForm, Control, Errors} from 'react-redux-form'
 import {Row, Col, Label} from 'reactstrap'
-
+import TagInput from './TagComponent'
 const required = (val) => val && val.length
 
 class ProjectDetailForm extends Component {
 	constructor(props) {
 		super(props)
+		this.handleProjectChange = this.handleProjectChange.bind(this)
+	}
+
+	handleProjectChange(project) {
+		project = {
+			...project, 
+			id: this.props.project.id
+		}
+		this.props.handleProjectChange(project)
 	}
 
 	render() {
 		const project = this.props.project
 		return(
-			<LocalForm className = 'form' onSubmit = {(project) => this.props.onSubmit(project)}>
+			<LocalForm className = 'form' model='project' onChange = {(project) => this.handleProjectChange(project)}>
 					<Row className='form-group'>
 						<Label className='text-right' sm = {12} md={3} for='title'>Title</Label>
 						<Col sm = {12} md={9}>
