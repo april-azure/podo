@@ -4,7 +4,7 @@ export const PROJECTS =
 		id: 0,
 		title: 'Project Music Tree',
 		course: 'FE0001',
-		tag: [
+		tags: [
 			{
 				content: 'Urgent',
 				color: 'danger'

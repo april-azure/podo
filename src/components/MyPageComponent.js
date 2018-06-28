@@ -4,6 +4,7 @@ import { Card, CardBody, CardTitle, Badge, CardSubtitle, Row, CardText,
 	Form, FormGroup, Input, Label, Col } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { LocalForm, Control, Errors } from 'react-redux-form'
+import TagInput from './TagComponent'
 
 const required = (val) => val && val.length
 
@@ -17,6 +18,7 @@ class MyPage extends Component {
 		this.toggle = this.toggle.bind(this)
 		this.addProject = this.addProject.bind(this)
 		this.submitAddProject = this.submitAddProject.bind(this)
+		this.tagOnChange = this.tagOnChange.bind(this)
 	}
 
 	toggle() {
@@ -37,6 +39,10 @@ class MyPage extends Component {
 			console.log('submit add project')
 			this.addProject(project)
 		}
+	}
+
+	tagOnChange(tags) {
+		console.log('tag on change')
 	}
 
 	render(){
@@ -67,7 +73,7 @@ class MyPage extends Component {
 							<Row className='form-group'>
 								<Label className='text-right' sm = {12} md={3} for='tag'>Tag</Label>
 								<Col sm = {12} md={9}>
-									<Control.text className='form-control' model='.tag' name='tag' type='text' id='tag'/>
+									<TagInput onChange = {this.tagOnChange}/>
 								</Col>
 							</Row>
 							<Row className='form-group'>

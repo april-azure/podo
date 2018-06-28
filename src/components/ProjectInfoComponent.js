@@ -3,7 +3,7 @@ import { LocalForm, Control, Errors } from 'react-redux-form'
 import { Row, Label, Card, CardBody, Button, CardFooter, Col } from 'reactstrap'
 import ProjectDetailForm from './ProjectDetailForm'
 import {connect} from 'react-redux'
-import TagInput from './TagComponent'
+import TagInput, {Tags} from './TagComponent'
 import * as actions from '../redux/ActionCreator'
 
 class ProjectInfo extends React.Component {
@@ -56,9 +56,11 @@ class ProjectInfo extends React.Component {
 						<Label className='col-md-3 text-right'>
 							Tag
 						</Label>
-						<Label className='col-md-9'>
-							---
-						</Label>
+						{
+							project.tags && project.tags.length > 0
+							?(<Tags tags={project.tags} className='col-md-9'/>)
+							:(<Label className='col-md-9'>---</Label>)
+						}
 					</Row>	
 					<Row>
 						<Label className='col-md-3 text-right'>
@@ -101,7 +103,6 @@ class ProjectInfo extends React.Component {
 				<Row className='justify-content-center'>
 					<Card className='col col-md-8' style={{marginTop:'1rem', marginBottom:'1rem'}}>
 							<CardBody className='container'>
-								<TagInput/>
 								{
 									this.state.editing
 									? 
