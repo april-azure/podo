@@ -24,18 +24,13 @@ class Task extends Component {
 				<Card className='task-item container'>
 					<Form>
 						<FormGroup check>
-							<Label check style = {{textDecoration: !task.finish?'none':'line-through' }} className='col-sm-10 float-left task-item-check-label'>
+							<Label check style = {{textDecoration: !task.finish?'none':'line-through' }} className='col-sm-9 float-left task-item-check-label'>
 								<Input type='checkbox' onChange = {this.toggle} checked = {task.finish}/>
 								{task.title}
 							</Label>
 							<Button color='primary' onClick = {() => this.props.editTask(task.id)} className='float-right btn-sm' outline>Edit</Button>
 						</FormGroup>
 					</Form>
-					<div className='row'>
-						<div style={{paddingLeft:0}} className='col col-sm-11 offset-sm-1'>
-							<Badge>ui design</Badge>	
-						</div>
-					</div>
 					<div className='row'>
 						<small style={{paddingLeft:0}} className='col col-sm-9 offset-sm-1'>{task.due}</small>
 						<small>{task.assignee}</small>
@@ -66,7 +61,7 @@ class ProjectDetail extends Component {
 	}
 
 	toggle(taskPanelId, isEditing=false) {
-		console.log(taskPanelId)
+		console.log(this.props.project.members )
 		this.setState({
 			isOpen: !this.state.isOpen,
 			taskPanelId: taskPanelId,
@@ -135,18 +130,16 @@ class ProjectDetail extends Component {
 								</Col>
 							</Row>
 							<Row className='form-group'>
-								<Label className='col-md-3 text-right'>Tag</Label>
-								<Col className='col-md-9'>
-									<Control.text className='form-control' model='.tag'/>
-								</Col>
-							</Row>
-							<Row className='form-group'>
 								<Label className='col-md-3 text-right'>Assignee</Label>
 								<Col className='col-md-9'>
 									<Control.select className='form-control' model='.assignee' defaultValue={editingTask? editingTask.assignee: ''}>
-										<option></option>
-										<option>Alice</option>
-										<option>Bob</option>
+										{
+											props.members && props.members.length > 0 ?
+											props.members.map((member,i) => (
+												<option>{member.content}</option>
+											))
+											: (<option></option>)
+										}
 									</Control.select>
 								</Col>
 							</Row>			
@@ -182,7 +175,7 @@ class ProjectDetail extends Component {
 					})}
 					<div style={{clear:'both'}}>
 					</div>
-					<RenderModal/>				
+					<RenderModal members = {this.props.project.members}/>				
 				</div>
 			)
 		}
@@ -275,7 +268,7 @@ class TaskPanel extends Component {
 								{
 									! this.state.editingTitle
 									? <span onClick = {this.toggleEditingTitle} style={{paddingLeft:0}} className='col-sm-9'>{taskList.title}</span>
-									: <input autoFocus 
+									: <Input autoFocus 
 											className='form-control col-sm-9' 
 											onBlur={()=>this.saveTitle(taskList.id)}
 											onChange={this.handleChangeTitle}

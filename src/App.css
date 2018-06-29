@@ -100,10 +100,10 @@ a.link-nostyle:hover{
   height: 24px;
 }
 
-div.tag input{
+div.tags input{
   margin-bottom: 5px
 }
 
-div.tag h4{
+div.tags h5{
   margin-right: 0.5rem;
 }

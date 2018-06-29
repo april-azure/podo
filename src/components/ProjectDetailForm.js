@@ -10,17 +10,24 @@ class ProjectDetailForm extends Component {
 		this.handleProjectChange = this.handleProjectChange.bind(this)
 		this.tagOnChange = this.tagOnChange.bind(this)
 		this.project = props.project
+		this.getTagValue = this.getTagValue.bind(this)
 	}
 
 	tagOnChange(tags) {
 		this.project.tags = [...tags]
+		this.handleProjectChange(this.project)
 		console.log('tags ' + JSON.stringify(tags) )
+	}
+
+	getTagValue(tags) {
+		this.project.tags = [...tags]
 	}
 
 	handleProjectChange(project) {
 		project = {
 			...project, 
-			id: this.props.project.id
+			id: this.props.project.id,
+			tags: this.project.tags? this.project.tags: []
 		}
 		this.project = project
 		this.props.handleProjectChange(project)
@@ -54,7 +61,7 @@ class ProjectDetailForm extends Component {
 					<Row className='form-group'>
 						<Label className='text-right' sm = {12} md={3} for='tag'>Tag</Label>
 						<Col sm = {12} md={9}>
-							<TagInput onChange = {this.tagOnChange} tags={this.props.project.tags}/>
+							<TagInput getTagValue={this.getTagValue} onChange = {this.tagOnChange} tags={this.props.project.tags}/>
 						</Col>
 					</Row>
 					<Row className='form-group'>

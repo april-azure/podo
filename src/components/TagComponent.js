@@ -7,9 +7,14 @@ class TagInput extends Component{
 		super(props)
 		console.log(props)
 		this.state = {
-			tags: props.tags
+			tags: props.tags? [...props.tags] : []
 		}
 		this.handleKeyPress = this.handleKeyPress.bind(this)
+	}
+
+	_onChange(tags){
+		if(this.props.onChange)
+			this.props.onChange(tags)
 	}
 
 	handleKeyPress(event) {
@@ -24,9 +29,13 @@ class TagInput extends Component{
 				tags: tags
 			})
 			event.target.value = ''
-			this.props.onChange(tags)
+			this._onChange(tags)
+			event.preventDefault()
 		}
+	}
 
+	getValue() {
+		return this.state.tags
 	}
 
 	removeTag(id) {
@@ -39,19 +48,20 @@ class TagInput extends Component{
 		this.setState({
 			tags: [...tags]
 		})
+		this._onChange(tags)
 	}
 
 	render(){
 		console.log(this.state.tags)
 		return (
-			<div className={`${this.props.className} tag`} >
+			<div className={`${this.props.className} tags`} >
 				<Input onKeyPress = {this.handleKeyPress}/>
 				{
 					this.state.tags?
 					(
 						<React.Fragment>
 							<div>{this.state.tags.map((tag,i) => (
-								<h4 className='float-left' key={i}><Badge pill color={tag.color}>{tag.content}<span style={{marginLeft:'0.5rem'}} onClick={()=>this.removeTag(i)}>x</span></Badge></h4>
+								<h5 className='float-left' key={i}><Badge pill color={tag.color}>{tag.content}<span style={{marginLeft:'0.5rem'}} onClick={()=>this.removeTag(i)}>x</span></Badge></h5>
 							))}
 							</div>
 							<div style={{clear:'both'}}></div>
@@ -72,11 +82,13 @@ export class Tags extends Component {
 	render() {
 		const tags = this.props.tags 
 		return (
-			<div className = {`${this.props.className} tag`}>
+			<div className = {`${this.props.className} tags`}>
 				{
+					tags ? 
 					tags.map((tag,i) => (
-						<h4 className='float-left' key={i}><Badge pill color={tag.color}>{tag.content}</Badge></h4>
+						<h5 className='float-left' key={i}><Badge pill color={tag.color}>{tag.content}</Badge></h5>
 					))
+					:null
 				}
 			</div>
 		)

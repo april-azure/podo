@@ -123,8 +123,6 @@ class ProjectInfo extends React.Component {
 										</div>
 									)
 								}
-								
-
 							</CardBody>					
 
 					</Card>

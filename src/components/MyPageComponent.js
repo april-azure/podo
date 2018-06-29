@@ -4,7 +4,7 @@ import { Card, CardBody, CardTitle, Badge, CardSubtitle, Row, CardText,
 	Form, FormGroup, Input, Label, Col } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { LocalForm, Control, Errors } from 'react-redux-form'
-import TagInput from './TagComponent'
+import TagInput, {Tags} from './TagComponent'
 
 const required = (val) => val && val.length
 
@@ -14,11 +14,18 @@ class MyPage extends Component {
 		this.state = {
 			isOpen: false
 		}
-
+		this.project = {}
 		this.toggle = this.toggle.bind(this)
 		this.addProject = this.addProject.bind(this)
 		this.submitAddProject = this.submitAddProject.bind(this)
 		this.tagOnChange = this.tagOnChange.bind(this)
+		this.onKeyPress = this.onTagKeyPress.bind(this)
+	}
+
+	onTagKeyPress(event) {
+		if(event.which === 13) {
+			event.preventDefault()
+		}
 	}
 
 	toggle() {
@@ -27,21 +34,27 @@ class MyPage extends Component {
 		})
 	}
 	
-	addProject(project) {
-		console.log('addproject' + project)
-		this.props.addProject(project)
+	addProject() {
+		this.props.addProject(this.project)
 	}
 
 	submitAddProject(project) {
-		console.log(project)
+		this.project = {
+			...project, 
+			...this.project
+		}
+		this.project.members = [
+			...this.membersInput.getValue()
+		]
 		this.toggle()
 		if(project){
 			console.log('submit add project')
-			this.addProject(project)
+			this.addProject()
 		}
 	}
 
 	tagOnChange(tags) {
+		this.project.tags = tags
 		console.log('tag on change')
 	}
 
@@ -73,18 +86,13 @@ class MyPage extends Component {
 							<Row className='form-group'>
 								<Label className='text-right' sm = {12} md={3} for='tag'>Tag</Label>
 								<Col sm = {12} md={9}>
-									<TagInput onChange = {this.tagOnChange}/>
+									<TagInput onKeyPress={this.onTagKeyPress} onChange = {this.tagOnChange}/>
 								</Col>
 							</Row>
 							<Row className='form-group'>
 								<Label className='text-right' sm = {12} md={3} for='members'>Members</Label>
 								<Col sm = {12} md={9}>
-									<Control.select className='form-control' model='.members' name='members' id='members'>
-										<option></option>
-										<option>Alice</option>
-										<option>Brian</option>
-										<option>Tag</option>
-									</Control.select>
+									<TagInput onKeyPress={this.onTagKeyPress} ref={(instance) => this.membersInput = instance}/>
 								</Col>
 							</Row>
 							<Row className='form-group'>
@@ -139,12 +147,16 @@ class MyPage extends Component {
 			const project = props.project;
 
 			return (
-				<div className='col-sm-12 col-md-6 project float-left'> 
+				<div className='col-sm-12 col-md-6 project float-left'>
 					<Card> 
 						<CardBody>
-							<CardTitle><Link to= { '/projectdetail/' + project.id }>{project.title}</Link><Badge className='float-right' color='danger'>Urgent</Badge></CardTitle>
-							<CardSubtitle>{project.course}</CardSubtitle>
-							<hr/>
+							<CardTitle>
+								<Link to= { '/projectdetail/' + project.id }>{project.title}</Link>
+								<CardSubtitle className='float-right'>{project.course}</CardSubtitle>	
+							</CardTitle>
+							<Tags className='float-left' tags={project.tags}/>
+							<div style={{clear:'both'}}/>
+						
 							<CardText>
 								{project.description}
 							</CardText>
